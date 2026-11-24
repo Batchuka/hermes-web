@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Analysis, Decision } from '../analysis';
 import { AnalysesApi } from '../analyses-api';
@@ -18,6 +19,7 @@ export class AnalysisForm {
   protected termMonths = 0;
   protected result = signal<Analysis | null>(null);
   protected reason = '';
+  protected error = signal<string | null>(null);
 
   protected analyze() {
     this.api
@@ -27,7 +29,16 @@ export class AnalysisForm {
         amount: this.amount,
         termMonths: this.termMonths,
       })
-      .subscribe((analysis) => this.result.set(analysis));
+      .subscribe({
+        next: (analysis) => {
+          this.error.set(null);
+          this.result.set(analysis);
+        },
+        error: (response: HttpErrorResponse) => {
+          this.result.set(null);
+          this.error.set(response.error?.detail ?? 'Could not analyze the proposal');
+        },
+      });
   }
 
   protected decide(decision: Decision) {

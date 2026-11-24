@@ -5,6 +5,9 @@
   <label>Amount <input name="amount" type="number" [(ngModel)]="amount" /></label>
   <label>Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" /></label>
   <button type="submit">Analyze</button>
+  @if (error(); as message) {
+    <p>{{ message }}</p>
+  }
   @if (result(); as analysis) {
     <p>Score: {{ analysis.score }} · Limit: {{ analysis.creditLimit }}</p>
   }
