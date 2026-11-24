@@ -1,8 +1,28 @@
 <form (ngSubmit)="register()">
-  <label>Farmer <input name="farmer" [(ngModel)]="farmer" /></label>
-  <label>Equipment <input name="equipment" [(ngModel)]="equipment" /></label>
-  <label>Amount <input name="amount" type="number" [(ngModel)]="amount" /></label>
-  <label>Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" /></label>
+  <label
+    >Farmer <input name="farmer" [(ngModel)]="farmer" />
+    @if (errors()['farmer']) {
+      <small>{{ errors()['farmer'] }}</small>
+    }
+  </label>
+  <label
+    >Equipment <input name="equipment" [(ngModel)]="equipment" />
+    @if (errors()['equipment']) {
+      <small>{{ errors()['equipment'] }}</small>
+    }
+  </label>
+  <label
+    >Amount <input name="amount" type="number" [(ngModel)]="amount" />
+    @if (errors()['amount']) {
+      <small>{{ errors()['amount'] }}</small>
+    }
+  </label>
+  <label
+    >Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" />
+    @if (errors()['termMonths']) {
+      <small>{{ errors()['termMonths'] }}</small>
+    }
+  </label>
   <button type="submit">Register</button>
   @if (saved(); as proposal) {
     <p>Saved. id: {{ proposal.id }}</p>

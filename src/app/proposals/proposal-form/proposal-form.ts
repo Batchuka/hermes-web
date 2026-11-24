@@ -1,4 +1,5 @@
 import { Component, inject, output, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Proposal } from '../proposal';
 import { ProposalsApi } from '../proposals-api';
@@ -17,6 +18,7 @@ export class ProposalForm {
   protected amount = 0;
   protected termMonths = 0;
   protected saved = signal<Proposal | null>(null);
+  protected errors = signal<Record<string, string>>({});
   readonly registered = output<Proposal>();
 
   protected register() {
@@ -27,9 +29,16 @@ export class ProposalForm {
         amount: this.amount,
         termMonths: this.termMonths,
       })
-      .subscribe((proposal) => {
-        this.saved.set(proposal);
-        this.registered.emit(proposal);
+      .subscribe({
+        next: (proposal) => {
+          this.errors.set({});
+          this.saved.set(proposal);
+          this.registered.emit(proposal);
+        },
+        error: (response: HttpErrorResponse) => {
+          this.saved.set(null);
+          this.errors.set(response.error?.fields ?? {});
+        },
       });
   }
 }
