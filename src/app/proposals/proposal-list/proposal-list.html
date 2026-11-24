@@ -1,0 +1,10 @@
+<h2>Proposals</h2>
+<ul>
+  @for (p of proposals(); track p.id) {
+    <li>
+      <button type="button" (click)="selected.emit(p.id)">
+        {{ p.farmer }} · {{ p.equipment }} · {{ p.amount }} · {{ p.termMonths }} months
+      </button>
+    </li>
+  }
+</ul>

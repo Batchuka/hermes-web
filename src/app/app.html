@@ -1,10 +1,6 @@
-<form (ngSubmit)="register()">
-  <label>Farmer <input name="farmer" [(ngModel)]="farmer" /></label>
-  <label>Equipment <input name="equipment" [(ngModel)]="equipment" /></label>
-  <label>Amount <input name="amount" type="number" [(ngModel)]="amount" /></label>
-  <label>Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" /></label>
-  <button type="submit">Register</button>
-  @if (saved(); as proposal) {
-    <p>Saved. id: {{ proposal.id }}</p>
-  }
-</form>
+<h1>Register a proposal</h1>
+<app-proposal-form (registered)="load()" />
+<app-proposal-list [proposals]="proposals()" (selected)="select($event)" />
+@if (selected(); as proposal) {
+  <app-proposal-detail [proposal]="proposal" />
+}
