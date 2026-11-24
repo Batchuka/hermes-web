@@ -1,6 +1,5 @@
-<h1>Register a proposal</h1>
-<app-proposal-form (registered)="load()" />
-<app-proposal-list [proposals]="proposals()" (selected)="select($event)" />
-@if (selected(); as proposal) {
-  <app-proposal-detail [proposal]="proposal" />
-}
+<nav>
+  <a routerLink="/sales">Sales</a>
+  <a routerLink="/credit">Credit</a>
+</nav>
+<router-outlet />
