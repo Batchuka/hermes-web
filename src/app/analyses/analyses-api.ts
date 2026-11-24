@@ -15,4 +15,8 @@ export class AnalysesApi {
   decide(id: number, decision: Decision, reason: string) {
     return this.http.put<Analysis>(`/analyses/${id}/decision`, { decision, reason });
   }
+
+  list() {
+    return this.http.get<Analysis[]>('/analyses');
+  }
 }

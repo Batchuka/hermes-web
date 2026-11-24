@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Analysis, Decision } from '../analysis';
@@ -12,6 +12,8 @@ import { AnalysesApi } from '../analyses-api';
 })
 export class AnalysisForm {
   private api = inject(AnalysesApi);
+
+  readonly changed = output<void>();
 
   protected farmer = '';
   protected income: number | null = null;
@@ -33,6 +35,7 @@ export class AnalysisForm {
         next: (analysis) => {
           this.error.set(null);
           this.result.set(analysis);
+          this.changed.emit();
         },
         error: (response: HttpErrorResponse) => {
           this.result.set(null);
@@ -44,8 +47,9 @@ export class AnalysisForm {
   protected decide(decision: Decision) {
     const analysis = this.result();
     if (!analysis) return;
-    this.api
-      .decide(analysis.id, decision, this.reason)
-      .subscribe((decided) => this.result.set(decided));
+    this.api.decide(analysis.id, decision, this.reason).subscribe((decided) => {
+      this.result.set(decided);
+      this.changed.emit();
+    });
   }
 }

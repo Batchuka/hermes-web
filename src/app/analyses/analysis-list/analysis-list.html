@@ -1,0 +1,13 @@
+<h2>Analyses</h2>
+<ul>
+  @for (a of analyses(); track a.id) {
+    <li>
+      {{ a.farmer }} · {{ a.amount }} · score {{ a.score }} ·
+      @if (a.decision) {
+        {{ a.decision }} · {{ a.reason }}
+      } @else {
+        pending
+      }
+    </li>
+  }
+</ul>
