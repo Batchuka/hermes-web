@@ -1,3 +1,5 @@
+export type Decision = 'APPROVED' | 'REJECTED';
+
 export interface Analysis {
   id: number;
   farmer: string;
@@ -6,4 +8,6 @@ export interface Analysis {
   termMonths: number;
   score: number;
   creditLimit: number;
+  decision: Decision | null;
+  reason: string | null;
 }

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Analysis } from '../analysis';
+import { Analysis, Decision } from '../analysis';
 import { AnalysesApi } from '../analyses-api';
 
 @Component({
@@ -17,6 +17,7 @@ export class AnalysisForm {
   protected amount = 0;
   protected termMonths = 0;
   protected result = signal<Analysis | null>(null);
+  protected reason = '';
 
   protected analyze() {
     this.api
@@ -27,5 +28,13 @@ export class AnalysisForm {
         termMonths: this.termMonths,
       })
       .subscribe((analysis) => this.result.set(analysis));
+  }
+
+  protected decide(decision: Decision) {
+    const analysis = this.result();
+    if (!analysis) return;
+    this.api
+      .decide(analysis.id, decision, this.reason)
+      .subscribe((decided) => this.result.set(decided));
   }
 }

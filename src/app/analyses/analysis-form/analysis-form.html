@@ -9,3 +9,12 @@
     <p>Score: {{ analysis.score }} · Limit: {{ analysis.creditLimit }}</p>
   }
 </form>
+@if (result(); as analysis) {
+  @if (analysis.decision) {
+    <p>Decision: {{ analysis.decision }} · {{ analysis.reason }}</p>
+  } @else {
+    <label>Reason <input name="reason" [(ngModel)]="reason" /></label>
+    <button type="button" (click)="decide('APPROVED')">Approve</button>
+    <button type="button" (click)="decide('REJECTED')">Reject</button>
+  }
+}
