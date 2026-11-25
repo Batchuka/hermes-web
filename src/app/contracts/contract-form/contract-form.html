@@ -1,14 +1,30 @@
 <form (ngSubmit)="review()">
-  <label>Farmer <input name="farmer" [(ngModel)]="farmer" /></label>
-  <label>Amount <input name="amount" type="number" [(ngModel)]="amount" /></label>
-  <label>Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" /></label>
   <label
-    >Monthly rate <input name="monthlyRate" type="number" step="0.001" [(ngModel)]="monthlyRate"
-  /></label>
+    >Farmer <input name="farmer" [(ngModel)]="farmer" />
+    @if (errors()['farmer']) {
+      <small>{{ errors()['farmer'] }}</small>
+    }
+  </label>
+  <label
+    >Amount <input name="amount" type="number" [(ngModel)]="amount" />
+    @if (errors()['amount']) {
+      <small>{{ errors()['amount'] }}</small>
+    }
+  </label>
+  <label
+    >Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" />
+    @if (errors()['termMonths']) {
+      <small>{{ errors()['termMonths'] }}</small>
+    }
+  </label>
+  <label
+    >Monthly rate
+    <input name="monthlyRate" type="number" step="0.001" [(ngModel)]="monthlyRate" />
+    @if (errors()['monthlyRate']) {
+      <small>{{ errors()['monthlyRate'] }}</small>
+    }
+  </label>
   <button type="submit">Review</button>
-  @if (error(); as message) {
-    <p>{{ message }}</p>
-  }
 </form>
 
 @if (preview(); as p) {
@@ -24,8 +40,8 @@
     @for (i of p.schedule; track i.number) {
       <tr>
         <td>{{ i.number }}</td>
+        <td>{{ i.dueDate }}</td>
         <td>{{ i.interest + i.principal | number: '1.2-2' }}</td>
-        <td>{{ i.interest + i.principal }}</td>
         <td>{{ i.interest }}</td>
         <td>{{ i.principal }}</td>
         <td>{{ i.balance }}</td>

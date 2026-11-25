@@ -21,6 +21,7 @@ export class ContractForm {
   protected preview = signal<Contract | null>(null);
   protected result = signal<Contract | null>(null);
   protected error = signal<string | null>(null);
+  protected errors = signal<Record<string, string>>({});
 
   private data() {
     return {
@@ -35,11 +36,13 @@ export class ContractForm {
     this.api.preview(this.data()).subscribe({
       next: (contract) => {
         this.error.set(null);
+        this.errors.set({});
         this.result.set(null);
         this.preview.set(contract);
       },
       error: (response: HttpErrorResponse) => {
         this.preview.set(null);
+        this.errors.set(response.error?.fields ?? {});
         this.error.set(response.error?.detail ?? 'Could not review the contract');
       },
     });
@@ -49,11 +52,13 @@ export class ContractForm {
     this.api.create(this.data()).subscribe({
       next: (contract) => {
         this.error.set(null);
-        this.preview.set(null); // novo
+        this.errors.set({});
+        this.preview.set(null);
         this.result.set(contract);
       },
       error: (response: HttpErrorResponse) => {
         this.result.set(null);
+        this.errors.set(response.error?.fields ?? {});
         this.error.set(response.error?.detail ?? 'Could not issue the contract');
       },
     });
