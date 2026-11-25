@@ -1,11 +1,7 @@
-nav {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #ccc;
+.spacer {
+  flex: 1 1 auto;
 }
 
-nav a.active {
-  font-weight: bold;
-  text-decoration: none;
+a.active {
+  background: rgb(255 255 255 / 0.15);
 }
