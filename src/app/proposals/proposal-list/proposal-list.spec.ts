@@ -22,7 +22,7 @@ describe('ProposalList', () => {
       { id: '1', farmer: 'Joao', equipment: 'Trator', amount: 10, termMonths: 12 },
     ]);
     await fixture.whenStable();
-    const items = fixture.nativeElement.querySelectorAll('li');
+    const items = fixture.nativeElement.querySelectorAll('tr[mat-row]');
     expect(items.length).toBe(1);
   });
 });

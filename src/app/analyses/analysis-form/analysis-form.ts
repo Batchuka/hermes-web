@@ -3,15 +3,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Analysis, Decision } from '../analysis';
 import { AnalysesApi } from '../analyses-api';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-analysis-form',
-  imports: [FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './analysis-form.html',
   styleUrl: './analysis-form.css',
 })
 export class AnalysisForm {
   private api = inject(AnalysesApi);
+  private snackBar = inject(MatSnackBar);
 
   readonly changed = output<void>();
 
@@ -49,6 +54,7 @@ export class AnalysisForm {
     if (!analysis) return;
     this.api.decide(analysis.id, decision, this.reason).subscribe((decided) => {
       this.result.set(decided);
+      this.snackBar.open(`Analysis ${decided.id}: ${decided.decision}`, 'OK', { duration: 4000 });
       this.changed.emit();
     });
   }

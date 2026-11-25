@@ -1,30 +1,44 @@
 <form (ngSubmit)="review()">
-  <label
-    >Farmer <input name="farmer" [(ngModel)]="farmer" />
-    @if (errors()['farmer']) {
-      <small>{{ errors()['farmer'] }}</small>
-    }
-  </label>
-  <label
-    >Amount <input name="amount" type="number" [(ngModel)]="amount" />
-    @if (errors()['amount']) {
-      <small>{{ errors()['amount'] }}</small>
-    }
-  </label>
-  <label
-    >Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" />
-    @if (errors()['termMonths']) {
-      <small>{{ errors()['termMonths'] }}</small>
-    }
-  </label>
-  <label
-    >Monthly rate
-    <input name="monthlyRate" type="number" step="0.001" [(ngModel)]="monthlyRate" />
-    @if (errors()['monthlyRate']) {
-      <small>{{ errors()['monthlyRate'] }}</small>
-    }
-  </label>
-  <button type="submit">Review</button>
+  <mat-form-field>
+    <mat-label>Farmer</mat-label>
+    <input matInput name="farmer" [(ngModel)]="farmer" [errorStateMatcher]="refuses('farmer')" />
+    <mat-error>{{ errors()['farmer'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      name="amount"
+      type="number"
+      [(ngModel)]="amount"
+      [errorStateMatcher]="refuses('amount')"
+    />
+    <mat-error>{{ errors()['amount'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Term (months)</mat-label>
+    <input
+      matInput
+      name="termMonths"
+      type="number"
+      [(ngModel)]="termMonths"
+      [errorStateMatcher]="refuses('termMonths')"
+    />
+    <mat-error>{{ errors()['termMonths'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Monthly rate</mat-label>
+    <input
+      matInput
+      name="monthlyRate"
+      type="number"
+      step="0.001"
+      [(ngModel)]="monthlyRate"
+      [errorStateMatcher]="refuses('monthlyRate')"
+    />
+    <mat-error>{{ errors()['monthlyRate'] }}</mat-error>
+  </mat-form-field>
+  <button mat-flat-button type="submit">Review</button>
 </form>
 
 @if (error(); as message) {
@@ -52,9 +66,5 @@
       </tr>
     }
   </table>
-  <button type="button" (click)="issue()">Issue</button>
-}
-
-@if (result(); as contract) {
-  <p>Contract number: {{ contract.id }}</p>
+  <button mat-flat-button type="button" (click)="issue()">Issue</button>
 }

@@ -1,9 +1,25 @@
 <h2>Contracts</h2>
-<ul>
-  @for (c of contracts(); track c.id) {
-    <li>
-      #{{ c.id }} · {{ c.farmer }} · {{ c.amount }} · {{ c.termMonths }} months · installment
-      {{ c.installment }}
-    </li>
-  }
-</ul>
+<table mat-table [dataSource]="contracts()">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>#</th>
+    <td mat-cell *matCellDef="let c">{{ c.id }}</td>
+  </ng-container>
+  <ng-container matColumnDef="farmer">
+    <th mat-header-cell *matHeaderCellDef>Farmer</th>
+    <td mat-cell *matCellDef="let c">{{ c.farmer }}</td>
+  </ng-container>
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef>Amount</th>
+    <td mat-cell *matCellDef="let c">{{ c.amount }}</td>
+  </ng-container>
+  <ng-container matColumnDef="termMonths">
+    <th mat-header-cell *matHeaderCellDef>Term (months)</th>
+    <td mat-cell *matCellDef="let c">{{ c.termMonths }}</td>
+  </ng-container>
+  <ng-container matColumnDef="installment">
+    <th mat-header-cell *matHeaderCellDef>Installment</th>
+    <td mat-cell *matCellDef="let c">{{ c.installment }}</td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let c; columns: columns"></tr>
+</table>

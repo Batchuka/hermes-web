@@ -1,9 +1,21 @@
 <form (ngSubmit)="analyze()">
-  <label>Farmer <input name="farmer" [(ngModel)]="farmer" /></label>
-  <label>Income <input name="income" type="number" [(ngModel)]="income" /></label>
-  <label>Amount <input name="amount" type="number" [(ngModel)]="amount" /></label>
-  <label>Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" /></label>
-  <button type="submit">Analyze</button>
+  <mat-form-field>
+    <mat-label>Farmer</mat-label>
+    <input matInput name="farmer" [(ngModel)]="farmer" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Income</mat-label>
+    <input matInput name="income" type="number" [(ngModel)]="income" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input matInput name="amount" type="number" [(ngModel)]="amount" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Term (months)</mat-label>
+    <input matInput name="termMonths" type="number" [(ngModel)]="termMonths" />
+  </mat-form-field>
+  <button mat-flat-button type="submit">Analyze</button>
   @if (error(); as message) {
     <p>{{ message }}</p>
   }
@@ -11,12 +23,16 @@
     <p>Score: {{ analysis.score }} · Limit: {{ analysis.creditLimit }}</p>
   }
 </form>
+
 @if (result(); as analysis) {
   @if (analysis.decision) {
     <p>Decision: {{ analysis.decision }} · {{ analysis.reason }}</p>
   } @else {
-    <label>Reason <input name="reason" [(ngModel)]="reason" /></label>
-    <button type="button" (click)="decide('APPROVED')">Approve</button>
-    <button type="button" (click)="decide('REJECTED')">Reject</button>
+    <mat-form-field>
+      <mat-label>Reason</mat-label>
+      <input matInput name="reason" [(ngModel)]="reason" />
+    </mat-form-field>
+    <button mat-flat-button type="button" (click)="decide('APPROVED')">Approve</button>
+    <button mat-stroked-button type="button" (click)="decide('REJECTED')">Reject</button>
   }
 }
