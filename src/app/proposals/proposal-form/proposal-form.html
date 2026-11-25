@@ -37,7 +37,4 @@
     <mat-error>{{ errors()['termMonths'] }}</mat-error>
   </mat-form-field>
   <button mat-flat-button type="submit">Register</button>
-  @if (saved(); as proposal) {
-    <p>Saved. id: {{ proposal.id }}</p>
-  }
 </form>

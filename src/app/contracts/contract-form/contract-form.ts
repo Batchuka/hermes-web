@@ -7,6 +7,7 @@ import { DecimalPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { whenServerRefuses } from '../../server-error-matcher';
 
 @Component({
@@ -17,6 +18,7 @@ import { whenServerRefuses } from '../../server-error-matcher';
 })
 export class ContractForm {
   private api = inject(ContractsApi);
+  private snackBar = inject(MatSnackBar);
 
   readonly issued = output<void>();
 
@@ -25,7 +27,6 @@ export class ContractForm {
   protected termMonths = 0;
   protected monthlyRate = 0;
   protected preview = signal<Contract | null>(null);
-  protected result = signal<Contract | null>(null);
   protected error = signal<string | null>(null);
   protected errors = signal<Record<string, string>>({});
   protected refuses = (field: string) => whenServerRefuses(() => !!this.errors()[field]);
@@ -44,7 +45,6 @@ export class ContractForm {
       next: (contract) => {
         this.error.set(null);
         this.errors.set({});
-        this.result.set(null);
         this.preview.set(contract);
       },
       error: (response: HttpErrorResponse) => {
@@ -61,11 +61,10 @@ export class ContractForm {
         this.error.set(null);
         this.errors.set({});
         this.preview.set(null);
-        this.result.set(contract);
+        this.snackBar.open(`Contract ${contract.id} issued`, 'OK', { duration: 4000 });
         this.issued.emit();
       },
       error: (response: HttpErrorResponse) => {
-        this.result.set(null);
         this.errors.set(response.error?.fields ?? {});
         this.error.set(
           response.status >= 500 || response.status === 0

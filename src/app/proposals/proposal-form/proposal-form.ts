@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { whenServerRefuses } from '../../server-error-matcher';
 import { Proposal } from '../proposal';
 import { ProposalsApi } from '../proposals-api';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-proposal-form',
@@ -16,12 +17,12 @@ import { ProposalsApi } from '../proposals-api';
 })
 export class ProposalForm {
   private api = inject(ProposalsApi);
+  private snackBar = inject(MatSnackBar);
 
   protected farmer = '';
   protected equipment = '';
   protected amount = 0;
   protected termMonths = 0;
-  protected saved = signal<Proposal | null>(null);
   protected errors = signal<Record<string, string>>({});
   protected refuses = (field: string) => whenServerRefuses(() => !!this.errors()[field]);
   readonly registered = output<Proposal>();
@@ -37,11 +38,10 @@ export class ProposalForm {
       .subscribe({
         next: (proposal) => {
           this.errors.set({});
-          this.saved.set(proposal);
+          this.snackBar.open(`Proposal ${proposal.id} registered`, 'OK', { duration: 4000 });
           this.registered.emit(proposal);
         },
         error: (response: HttpErrorResponse) => {
-          this.saved.set(null);
           this.errors.set(response.error?.fields ?? {});
         },
       });

@@ -67,7 +67,7 @@ describe('ContractForm', () => {
     issue();
     http.expectOne('/contracts').flush(contract);
     await fixture.whenStable();
-    expect(page.textContent).toContain('Contract number: 7');
+    expect(document.body.textContent).toContain('Contract 7 issued');
     expect(page.querySelector('table')).toBeNull();
   });
 
