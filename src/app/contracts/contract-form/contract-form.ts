@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { Contract } from '../contract';
@@ -13,6 +13,8 @@ import { DecimalPipe } from '@angular/common';
 })
 export class ContractForm {
   private api = inject(ContractsApi);
+
+  readonly issued = output<void>();
 
   protected farmer = '';
   protected amount = 0;
@@ -55,6 +57,7 @@ export class ContractForm {
         this.errors.set({});
         this.preview.set(null);
         this.result.set(contract);
+        this.issued.emit();
       },
       error: (response: HttpErrorResponse) => {
         this.result.set(null);

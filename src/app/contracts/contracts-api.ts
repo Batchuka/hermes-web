@@ -15,4 +15,8 @@ export class ContractsApi {
   preview(contract: ContractData) {
     return this.http.post<Contract>('/contracts/preview', contract);
   }
+
+  list() {
+    return this.http.get<Contract[]>('/contracts');
+  }
 }

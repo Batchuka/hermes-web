@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { ContractsPage } from './contracts-page';
 
@@ -9,6 +11,7 @@ describe('ContractsPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ContractsPage],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContractsPage);
@@ -16,7 +19,9 @@ describe('ContractsPage', () => {
     await fixture.whenStable();
   });
 
-  it('should create', () => {
+  it('loads the contracts when it opens', async () => {
+    TestBed.inject(HttpTestingController).expectOne('/contracts').flush([]);
+    await fixture.whenStable();
     expect(component).toBeTruthy();
   });
 });
