@@ -30,7 +30,7 @@ describe('ContractList', () => {
       },
     ]);
     await fixture.whenStable();
-    expect(fixture.nativeElement.querySelectorAll('li').length).toBe(1);
+    expect(fixture.nativeElement.querySelectorAll('tr[mat-row]').length).toBe(1);
     expect(fixture.nativeElement.textContent).toContain('Joao');
   });
 });
