@@ -59,7 +59,11 @@ export class ContractForm {
       error: (response: HttpErrorResponse) => {
         this.result.set(null);
         this.errors.set(response.error?.fields ?? {});
-        this.error.set(response.error?.detail ?? 'Could not issue the contract');
+        this.error.set(
+          response.status >= 500 || response.status === 0
+            ? 'Nothing was stored. Please try again.'
+            : (response.error?.detail ?? 'Could not issue the contract'),
+        );
       },
     });
   }

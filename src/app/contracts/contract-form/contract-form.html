@@ -27,6 +27,10 @@
   <button type="submit">Review</button>
 </form>
 
+@if (error(); as message) {
+  <p>{{ message }}</p>
+}
+
 @if (preview(); as p) {
   <table>
     <tr>
