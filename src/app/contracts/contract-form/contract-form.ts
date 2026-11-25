@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { Contract } from '../contract';
 import { ContractsApi } from '../contracts-api';
 import { DecimalPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { whenServerRefuses } from '../../server-error-matcher';
 
 @Component({
   selector: 'app-contract-form',
-  imports: [FormsModule, DecimalPipe],
+  imports: [FormsModule, DecimalPipe, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './contract-form.html',
   styleUrl: './contract-form.css',
 })
@@ -24,6 +28,7 @@ export class ContractForm {
   protected result = signal<Contract | null>(null);
   protected error = signal<string | null>(null);
   protected errors = signal<Record<string, string>>({});
+  protected refuses = (field: string) => whenServerRefuses(() => !!this.errors()[field]);
 
   private data() {
     return {

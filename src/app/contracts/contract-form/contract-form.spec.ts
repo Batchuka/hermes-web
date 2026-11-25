@@ -56,7 +56,7 @@ describe('ContractForm', () => {
         { status: 400, statusText: 'Bad Request' },
       );
     await fixture.whenStable();
-    expect(page.querySelector('label small')?.textContent).toContain('must not be blank');
+    expect(page.querySelector('mat-error')?.textContent).toContain('must not be blank');
     expect(page.querySelector('table')).toBeNull();
   });
 

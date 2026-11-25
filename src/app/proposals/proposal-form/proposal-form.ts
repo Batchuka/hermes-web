@@ -1,12 +1,16 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { whenServerRefuses } from '../../server-error-matcher';
 import { Proposal } from '../proposal';
 import { ProposalsApi } from '../proposals-api';
 
 @Component({
   selector: 'app-proposal-form',
-  imports: [FormsModule],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './proposal-form.html',
   styleUrl: './proposal-form.css',
 })
@@ -19,6 +23,7 @@ export class ProposalForm {
   protected termMonths = 0;
   protected saved = signal<Proposal | null>(null);
   protected errors = signal<Record<string, string>>({});
+  protected refuses = (field: string) => whenServerRefuses(() => !!this.errors()[field]);
   readonly registered = output<Proposal>();
 
   protected register() {

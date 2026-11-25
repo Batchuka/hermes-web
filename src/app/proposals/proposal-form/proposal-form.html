@@ -1,29 +1,42 @@
 <form (ngSubmit)="register()">
-  <label
-    >Farmer <input name="farmer" [(ngModel)]="farmer" />
-    @if (errors()['farmer']) {
-      <small>{{ errors()['farmer'] }}</small>
-    }
-  </label>
-  <label
-    >Equipment <input name="equipment" [(ngModel)]="equipment" />
-    @if (errors()['equipment']) {
-      <small>{{ errors()['equipment'] }}</small>
-    }
-  </label>
-  <label
-    >Amount <input name="amount" type="number" [(ngModel)]="amount" />
-    @if (errors()['amount']) {
-      <small>{{ errors()['amount'] }}</small>
-    }
-  </label>
-  <label
-    >Term (months) <input name="termMonths" type="number" [(ngModel)]="termMonths" />
-    @if (errors()['termMonths']) {
-      <small>{{ errors()['termMonths'] }}</small>
-    }
-  </label>
-  <button type="submit">Register</button>
+  <mat-form-field>
+    <mat-label>Farmer</mat-label>
+    <input matInput name="farmer" [(ngModel)]="farmer" [errorStateMatcher]="refuses('farmer')" />
+    <mat-error>{{ errors()['farmer'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Equipment</mat-label>
+    <input
+      matInput
+      name="equipment"
+      [(ngModel)]="equipment"
+      [errorStateMatcher]="refuses('equipment')"
+    />
+    <mat-error>{{ errors()['equipment'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Amount</mat-label>
+    <input
+      matInput
+      name="amount"
+      type="number"
+      [(ngModel)]="amount"
+      [errorStateMatcher]="refuses('amount')"
+    />
+    <mat-error>{{ errors()['amount'] }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Term (months)</mat-label>
+    <input
+      matInput
+      name="termMonths"
+      type="number"
+      [(ngModel)]="termMonths"
+      [errorStateMatcher]="refuses('termMonths')"
+    />
+    <mat-error>{{ errors()['termMonths'] }}</mat-error>
+  </mat-form-field>
+  <button mat-flat-button type="submit">Register</button>
   @if (saved(); as proposal) {
     <p>Saved. id: {{ proposal.id }}</p>
   }
