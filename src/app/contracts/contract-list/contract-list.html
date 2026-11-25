@@ -1,0 +1,9 @@
+<h2>Contracts</h2>
+<ul>
+  @for (c of contracts(); track c.id) {
+    <li>
+      #{{ c.id }} · {{ c.farmer }} · {{ c.amount }} · {{ c.termMonths }} months · installment
+      {{ c.installment }}
+    </li>
+  }
+</ul>
